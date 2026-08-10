@@ -552,24 +552,28 @@
   const genId = () => Date.now().toString(36) + Math.random().toString(36).slice(2,7);
 
   // ---------------- Storage ----------------
+  // This app runs standalone (hosted + installed to your home screen), so it
+  // persists data with localStorage — the browser's built-in per-site storage.
+  // Data lives on this device, in this browser/installed app, until you clear
+  // site data or uninstall.
   async function loadData(){
     try{
-      const w = await window.storage.get('workouts', false);
-      workouts = w && w.value ? JSON.parse(w.value) : [];
+      const w = localStorage.getItem('setlog_workouts');
+      workouts = w ? JSON.parse(w) : [];
     }catch(e){ workouts = []; }
     try{
-      const c = await window.storage.get('customExercises', false);
-      customExercises = c && c.value ? JSON.parse(c.value) : [];
+      const c = localStorage.getItem('setlog_customExercises');
+      customExercises = c ? JSON.parse(c) : [];
     }catch(e){ customExercises = []; }
     workouts.sort((a,b) => b.date.localeCompare(a.date));
   }
 
   async function saveWorkouts(){
-    try{ await window.storage.set('workouts', JSON.stringify(workouts), false); }
+    try{ localStorage.setItem('setlog_workouts', JSON.stringify(workouts)); }
     catch(e){ console.error('Could not save workouts', e); }
   }
   async function saveCustomExercises(){
-    try{ await window.storage.set('customExercises', JSON.stringify(customExercises), false); }
+    try{ localStorage.setItem('setlog_customExercises', JSON.stringify(customExercises)); }
     catch(e){ console.error('Could not save exercise list', e); }
   }
 
