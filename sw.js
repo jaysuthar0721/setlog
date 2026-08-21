@@ -1,4 +1,4 @@
-const CACHE_NAME = 'setlog-v5';
+const CACHE_NAME = 'setlog-v8';
 const APP_SHELL = [
   './',
   './index.html',
